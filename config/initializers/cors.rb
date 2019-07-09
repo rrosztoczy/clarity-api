@@ -7,9 +7,10 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*'
+    #TODO: important update this to your FE website only before hosting
+    origins 'localhost:3000'
 
-    resource '*',
+    resource '/api/v1/*',
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
