@@ -44,7 +44,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find user/)
+        expect(response.body).to match(/Couldn't find User with 'id'=100/)
       end
     end
   end
@@ -52,7 +52,7 @@ RSpec.describe 'Users API', type: :request do
   # Test suite for POST /users
   describe 'POST /users' do
     # valid payload
-    let(:valid_attributes) { { username: 'testuserpost', first_name: 'test', last_name: 'userpost' , email: 'testuserpost@example.com'  } }
+    let(:valid_attributes) { { username: 'testuserpost', first_name: 'test', last_name: 'userpost' , email: 'testuserpost@example.com', password_digest: 'p@ssw0rd'  } }
 
     context 'when the request is valid' do
       before { post '/users', params: valid_attributes }
