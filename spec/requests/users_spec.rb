@@ -53,7 +53,7 @@ RSpec.describe 'Users API', type: :request do
   describe 'POST /api/v1/users' do
     # valid payload
     # Add require, change below to include users
-    let(:valid_attributes) { { username: 'testuserpost', first_name: 'test', last_name: 'userpost' , email: 'testuserpost@example.com', password_digest: 'p@ssw0rd'  } }
+    let(:valid_attributes) { { user: { username: 'testuserpost', first_name: 'test', last_name: 'userpost' , email: 'testuserpost@example.com', password_digest: 'p@ssw0rd'  } } }
 
     context 'when the request is valid' do
       before { post '/api/v1/users', params: valid_attributes }
@@ -71,7 +71,7 @@ RSpec.describe 'Users API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/api/v1/users', params: { username: 'whoops', last_name: 'user', email: 'testuser@example.com' } }
+      before { post '/api/v1/users', params: { user: { username: 'whoops', last_name: 'user', email: 'testuser@example.com' } } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -86,7 +86,7 @@ RSpec.describe 'Users API', type: :request do
 
   # Test suite for PUT /api/v1/users/:id
   describe 'PUT /api/v1/users/:id' do
-    let(:valid_attributes) { { username: 'testuserput', first_name: 'test', last_name: 'userput' , email: 'testuserput@example.com'  } }
+    let(:valid_attributes) { { user: { username: 'testuserput', first_name: 'test', last_name: 'userput' , email: 'testuserput@example.com'  } } }
 
     context 'when the record exists' do
       before { put "/api/v1/users/#{user_id}", params: valid_attributes }
