@@ -54,8 +54,9 @@ RSpec.describe 'Users API', type: :request do
     # valid payload
     # Add require, change below to include users
     let(:valid_attributes) { { user: { username: 'testuserpost', first_name: 'test', last_name: 'userpost' , email: 'testuserpost@example.com', password_digest: 'p@ssw0rd'  } } }
+    let(:valid_nested_attributes) { { user: { username: 'testuserpost1', first_name: 'test', last_name: 'userpost1' , email: 'testuserpost1@example.com', password_digest: 'p@ssw0rd', thoughts_attributes: [quality: 'true']  } } }
 
-    context 'when the request is valid' do
+    context 'when the request is valid without nested attributes' do
       before { post '/api/v1/users', params: valid_attributes }
 
       it 'creates a user' do
@@ -63,6 +64,26 @@ RSpec.describe 'Users API', type: :request do
         expect(json['first_name']).to eq('test')
         expect(json['last_name']).to eq('userpost')
         expect(json['email']).to eq('testuserpost@example.com')
+      end
+
+      it 'returns status code 201' do
+        expect(response).to have_http_status(201)
+      end
+    end
+
+    context 'when the request is valid and has nested attributes' do
+      before { post '/api/v1/users', params: valid_nested_attributes }
+
+      it 'creates a user for thoughts' do
+        expect(json['username']).to eq('testuserpost1')
+        expect(json['first_name']).to eq('test')
+        expect(json['last_name']).to eq('userpost1')
+        expect(json['email']).to eq('testuserpost1@example.com')
+      end
+   
+      # Why is json['thoughts_attributes'] nil?
+      it 'creates a thought for the user' do
+        expect(Thought.where(user_id="11", quality=true)).to exist
       end
 
       it 'returns status code 201' do
