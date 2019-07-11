@@ -6,7 +6,7 @@ module Api
     # GET /users
     def index
         @users = User.all
-        json_response(@users)
+        render json: UserSerializer.new(@users)
     end
 
     # POST /users
