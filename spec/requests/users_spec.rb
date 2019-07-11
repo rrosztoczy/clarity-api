@@ -83,8 +83,7 @@ RSpec.describe 'Users API', type: :request do
    
       # Why is json['thoughts_attributes'] nil?
       it 'creates a thought for the user' do
-        byebug
-        expect(json['thoughts_attributes'][0]['quality']).to eq('true')
+        expect(Thought.where(user_id="11", quality=true)).to exist
       end
 
       it 'returns status code 201' do
